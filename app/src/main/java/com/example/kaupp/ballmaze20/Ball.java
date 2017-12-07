@@ -3,6 +3,7 @@ package com.example.kaupp.ballmaze20;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 
 public class Ball {
 
@@ -33,6 +34,11 @@ public class Ball {
         //updating x coordinate
         x += xNew;
         y += yNew;
+        if(x>950)x=950;
+        if(x<0)x=0;
+        if(y<0)y=0;
+        if(y>1600)y=1600;
+        Log.d("Demo2","X=" + Integer.toString(x) + "Y="+ Integer.toString(y));
     }
 
     public Bitmap getBitmap() {
