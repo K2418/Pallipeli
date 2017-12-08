@@ -2,6 +2,8 @@ package com.example.kaupp.ballmaze20;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -51,6 +53,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     public void run() {
 
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         sensorManager.registerListener((SensorEventListener) this, sensor, SensorManager.SENSOR_DELAY_GAME);
 
         while (playing) {

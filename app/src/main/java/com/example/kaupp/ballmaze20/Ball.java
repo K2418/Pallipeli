@@ -14,6 +14,8 @@ public class Ball {
     private int x;
     private int y;
 
+    private int width, height;
+
     //motion speed of the character
     private int speed = 0;
 
@@ -34,10 +36,12 @@ public class Ball {
         //updating x coordinate
         x += xNew;
         y += yNew;
-        if(x>950)x=950;
+
+
+        if(x>1650)x=1650;
         if(x<0)x=0;
         if(y<0)y=0;
-        if(y>1600)y=1600;
+        if(y>890)y=890;
         Log.d("Demo2","X=" + Integer.toString(x) + "Y="+ Integer.toString(y));
     }
 
