@@ -47,40 +47,64 @@ public class Ball {
 
     //Method to update coordinate of character
     public void update( int xNew, int yNew){
-        //updating x coordinate
+        //updating x & y coordinate
         if(xNew > 6 || xNew < -6){
-            x -= xNew * (acceleration*4);
+            x -= xNew * (acceleration*2);
+        }
+        else if(xNew > 5 || xNew < -5){
+            x -= xNew * (acceleration *1.8);
         }
         else if(xNew > 4 || xNew < -4){
-            x -= xNew * (acceleration *3);
+            x -= xNew * (acceleration *1.6);
         }
+
+        else if(xNew > 3 || xNew < -3){
+            x -= xNew * (acceleration *1.4);
+        }
+
         else if(xNew > 2 || xNew < -2){
-            x -= xNew * (acceleration *2);
+            x -= xNew * (acceleration *1.2);
         }
         else{
             x -= xNew * acceleration;
         }
 
         if(yNew > 6 || yNew < -6){
-            y -= yNew * (acceleration*4);
+            y += yNew * (acceleration*2);
+        }
+        else if(yNew > 5 || yNew < -5){
+            y += yNew * (acceleration *1.8);
         }
         else if(yNew > 4 || yNew < -4){
-            y -= yNew * (acceleration *3);
+            y += yNew * (acceleration *1.6);
         }
+
+        else if(yNew > 3 || yNew < -3){
+            y += yNew * (acceleration *1.4);
+        }
+
         else if(yNew > 2 || yNew < -2){
-            y -= yNew * (acceleration *2);
+            y += yNew * (acceleration *1.2);
         }
         else{
-            y -= yNew * acceleration;
+            y += yNew * acceleration;
         }
 
 
-
-        if(x>screenWidth - ballWidth)x=screenWidth-ballWidth;
+        if(x > screenWidth - ballWidth){
+            xNew = Bounce(xNew);
+            x += xNew;
+        }
         if(x<0)x=0;
         if(y<0)y=0;
         if(y>screenHeight - ballHeight)y=screenHeight-ballHeight;
         Log.d("Demo2","X=" + Integer.toString(x) + "Y="+ Integer.toString(y));
+    }
+
+    private int Bounce(int bounce){
+
+        bounce = bounce * -1;
+        return bounce;
     }
 
     public Bitmap getBitmap() {
