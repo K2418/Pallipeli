@@ -12,6 +12,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -40,10 +41,10 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     double x = 0, y = 0;
 
     //Class constructor
-    public GameView(Context context, SensorManager passedManager) {
+    public GameView(Context context, SensorManager passedManager, DisplayMetrics passedDisplay) {
         super(context);
         sensorManager = passedManager;
-        ball = new Ball(context);
+        ball = new Ball(context, passedDisplay);
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();

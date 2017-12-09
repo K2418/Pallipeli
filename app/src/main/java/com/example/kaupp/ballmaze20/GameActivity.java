@@ -1,6 +1,7 @@
 package com.example.kaupp.ballmaze20;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.hardware.Sensor;
@@ -9,6 +10,7 @@ import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -23,13 +25,9 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-        }
-        else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-        }
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
 
+        WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
 
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
 
@@ -38,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
         screenWidth = displaymetrics.widthPixels;
         screenHeight = displaymetrics.heightPixels;
 
-        gameView = new GameView(this, sensorManager);
+        gameView = new GameView(this, sensorManager, displaymetrics);
 
         setContentView(gameView);
     }
