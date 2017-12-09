@@ -25,7 +25,7 @@ public class Ball {
     private int screenWidth, screenHeight;
 
     //motion speed of the character
-    private int speed = 0;
+    private float acceleration;
 
 
     //constructor
@@ -33,7 +33,7 @@ public class Ball {
 
         x = 75;
         y = 50;
-        speed = 1;
+        acceleration = 1.25f;
 
 
         screenWidth = passedDisplay.widthPixels;
@@ -48,8 +48,32 @@ public class Ball {
     //Method to update coordinate of character
     public void update( int xNew, int yNew){
         //updating x coordinate
-        x -= xNew;
-        y += yNew;
+        if(xNew > 6 || xNew < -6){
+            x -= xNew * (acceleration*4);
+        }
+        else if(xNew > 4 || xNew < -4){
+            x -= xNew * (acceleration *3);
+        }
+        else if(xNew > 2 || xNew < -2){
+            x -= xNew * (acceleration *2);
+        }
+        else{
+            x -= xNew * acceleration;
+        }
+
+        if(yNew > 6 || yNew < -6){
+            y -= yNew * (acceleration*4);
+        }
+        else if(yNew > 4 || yNew < -4){
+            y -= yNew * (acceleration *3);
+        }
+        else if(yNew > 2 || yNew < -2){
+            y -= yNew * (acceleration *2);
+        }
+        else{
+            y -= yNew * acceleration;
+        }
+
 
 
         if(x>screenWidth - ballWidth)x=screenWidth-ballWidth;
@@ -71,11 +95,4 @@ public class Ball {
         return y;
     }
 
-    public int getWidth() { return ballWidth; }
-
-    public int getHeight() { return ballHeight; }
-
-    public int getSpeed() {
-        return speed;
-    }
 }
