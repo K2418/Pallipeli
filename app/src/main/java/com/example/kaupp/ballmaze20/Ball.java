@@ -27,12 +27,16 @@ public class Ball {
     //motion speed of the character
     private float acceleration;
 
+    private boolean bounceTrue = false;
+    private int bounceAmount, bounceDirection;
+    int timesUpdated = 0;
+
 
     //constructor
     public Ball(Context context, DisplayMetrics passedDisplay) {
 
-        x = 75;
-        y = 50;
+        x = 150;
+        y = 150;
         acceleration = 1.25f;
 
 
@@ -48,62 +52,122 @@ public class Ball {
     //Method to update coordinate of character
     public void update( int xNew, int yNew){
         //updating x & y coordinate
-        if(xNew > 6 || xNew < -6){
-            x -= xNew * (acceleration*2);
-        }
-        else if(xNew > 5 || xNew < -5){
-            x -= xNew * (acceleration *1.8);
-        }
-        else if(xNew > 4 || xNew < -4){
-            x -= xNew * (acceleration *1.6);
-        }
-
-        else if(xNew > 3 || xNew < -3){
-            x -= xNew * (acceleration *1.4);
-        }
-
-        else if(xNew > 2 || xNew < -2){
-            x -= xNew * (acceleration *1.2);
+        if(bounceTrue == true){
+            timesUpdated++;
+            if(bounceDirection == 0){
+                int move = bounceAmount / 5;
+                x -= move;
+                if(timesUpdated >= 5){
+                    timesUpdated = 0;
+                    bounceTrue = false;
+                }
+            }
+            else if(bounceDirection == 1){
+                int move = bounceAmount / 5;
+                x -= move;
+                if(timesUpdated >= 5){
+                    timesUpdated = 0;
+                    bounceTrue = false;
+                }
+            }
+            else if(bounceDirection == 2){
+                int move = bounceAmount / 5;
+                y += move;
+                if(timesUpdated >= 5){
+                    timesUpdated = 0;
+                    bounceTrue = false;
+                }
+            }
+            else if(bounceDirection == 3){
+                int move = bounceAmount / 5;
+                y += move;
+                if(timesUpdated >= 5){
+                    timesUpdated = 0;
+                    bounceTrue = false;
+                }
+            }
+            else{
+                bounceTrue = false;
+            }
         }
         else{
-            x -= xNew * acceleration;
+            if(xNew > 6 || xNew < -6){
+                x -= xNew * (acceleration*2);
+            }
+            else if(xNew > 5 || xNew < -5){
+                x -= xNew * (acceleration *1.8);
+            }
+            else if(xNew > 4 || xNew < -4){
+                x -= xNew * (acceleration *1.6);
+            }
+
+            else if(xNew > 3 || xNew < -3){
+                x -= xNew * (acceleration *1.4);
+            }
+
+            else if(xNew > 2 || xNew < -2){
+                x -= xNew * (acceleration *1.2);
+            }
+            else{
+                x -= xNew * acceleration;
+            }
+
+            if(yNew > 6 || yNew < -6){
+                y += yNew * (acceleration*2);
+            }
+            else if(yNew > 5 || yNew < -5){
+                y += yNew * (acceleration *1.8);
+            }
+            else if(yNew > 4 || yNew < -4){
+                y += yNew * (acceleration *1.6);
+            }
+
+            else if(yNew > 3 || yNew < -3){
+                y += yNew * (acceleration *1.4);
+            }
+
+            else if(yNew > 2 || yNew < -2){
+                y += yNew * (acceleration *1.2);
+            }
+            else{
+                y += yNew * acceleration;
+            }
+
+            if(x > screenWidth - ballWidth){
+                xNew = Bounce(xNew);
+                //x = screenWidth - xNew - ballWidth;
+                bounceTrue = true;
+                bounceAmount = xNew;
+                bounceDirection = 0;
+            }
+            if(x<0){
+                xNew = Bounce(xNew);
+                bounceTrue = true;
+                bounceAmount = xNew;
+                bounceDirection = 1;
+            }
+            if(y<0){
+                yNew = Bounce(yNew);
+                bounceTrue = true;
+                bounceAmount = yNew;
+                bounceDirection = 2;
+            }
+            if(y>screenHeight - ballHeight){
+                yNew = Bounce(yNew);
+                bounceTrue = true;
+                bounceAmount = yNew;
+                bounceDirection = 3;
+            }
         }
 
-        if(yNew > 6 || yNew < -6){
-            y += yNew * (acceleration*2);
-        }
-        else if(yNew > 5 || yNew < -5){
-            y += yNew * (acceleration *1.8);
-        }
-        else if(yNew > 4 || yNew < -4){
-            y += yNew * (acceleration *1.6);
-        }
 
-        else if(yNew > 3 || yNew < -3){
-            y += yNew * (acceleration *1.4);
-        }
-
-        else if(yNew > 2 || yNew < -2){
-            y += yNew * (acceleration *1.2);
-        }
-        else{
-            y += yNew * acceleration;
-        }
-
-
-        if(x > screenWidth - ballWidth){
-            xNew = Bounce(xNew);
-            x += xNew;
-        }
-        if(x<0)x=0;
-        if(y<0)y=0;
-        if(y>screenHeight - ballHeight)y=screenHeight-ballHeight;
         Log.d("Demo2","X=" + Integer.toString(x) + "Y="+ Integer.toString(y));
     }
 
     private int Bounce(int bounce){
 
         bounce = bounce * -1;
+        bounce = bounce*15;
         return bounce;
     }
 
@@ -118,5 +182,4 @@ public class Ball {
     public int getY() {
         return y;
     }
-
 }
