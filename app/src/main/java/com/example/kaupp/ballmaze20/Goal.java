@@ -31,19 +31,19 @@ public class Goal {
         goalWidth = bitmap.getWidth();
 
         x = screenWidth / 2 - goalWidth;
-        y = screenHeight /2  - goalWidth;
+        y = screenHeight / 2  - goalWidth;
     }
 
     public void Done(){
         int min = goalHeight;
-        int maxH = screenHeight;
-        int maxW = screenWidth;
+        int maxH = screenHeight - goalHeight;
+        int maxW = screenWidth - goalWidth;
 
         Random hori = new Random();
-        y = hori.nextInt(maxW - min + 1) + min;
+        x = hori.nextInt(maxW - min + 1) + min;
 
         Random verti = new Random();
-        x = verti.nextInt(maxH - min + 1) + min;
+        y = verti.nextInt(maxH - min + 1) + min;
     }
 
     public Bitmap getBitmap() {

@@ -175,14 +175,14 @@ public class Ball {
 
     public void Destroy(){
         int min = ballHeight;
-        int maxH = screenHeight;
-        int maxW = screenWidth;
+        int maxH = screenHeight - ballHeight;
+        int maxW = screenWidth - ballWidth;
 
         Random hori = new Random();
-        y = hori.nextInt(maxW - min + 1) + min;
+        x = hori.nextInt(maxW - min + 1) + min;
 
         Random verti = new Random();
-        x = verti.nextInt(maxH - min + 1) + min;
+        y = verti.nextInt(maxH - min + 1) + min;
     }
 
     public Bitmap getBitmap() {
