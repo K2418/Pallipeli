@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -17,6 +18,7 @@ public class GameActivity extends AppCompatActivity {
     private GameView gameView;
     private SensorManager sensorManager;
     public int screenWidth, screenHeight;
+    public MediaPlayer mediaPlayer;
 
 
     @Override
@@ -32,6 +34,12 @@ public class GameActivity extends AppCompatActivity {
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.balls);
+
+        mediaPlayer.setLooping(true);
+
+
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         screenWidth = displaymetrics.widthPixels;
         screenHeight = displaymetrics.heightPixels;
@@ -49,6 +57,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         gameView.pause();
+        mediaPlayer.pause();
     }
 
     //running the game when activity is resumed
@@ -56,5 +65,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         gameView.resume();
+        mediaPlayer.start();
     }
 }

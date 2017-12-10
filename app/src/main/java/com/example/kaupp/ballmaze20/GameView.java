@@ -97,6 +97,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
                     0,
                     0,
                     paint);
+            DrawWalls();
             canvas.drawBitmap(
                     goal.getBitmap(),
                     goal.getX(),
@@ -161,5 +162,9 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         toastLong("Jippii");
         ball.Destroy();
         goal.Done();
+    }
+
+    public void DrawWalls(){
+        canvas.drawLine(50,50,100,100, paint);
     }
 }
