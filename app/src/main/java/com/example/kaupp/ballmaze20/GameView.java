@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -42,6 +44,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     private Paint paint;
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
+    private Bitmap wood1;
 
     double x = 0, y = 0;
 
@@ -49,11 +52,13 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     public GameView(Context context, SensorManager passedManager, DisplayMetrics passedDisplay) {
         super(context);
         sensorManager = passedManager;
+        wood1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood1);
         ball = new Ball(context, passedDisplay);
         goal = new Goal(context, passedDisplay);
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
+
     }
 
     @Override
@@ -87,6 +92,11 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
             //drawing a background color for canvas
             canvas.drawColor(Color.WHITE);
             //Drawing the player
+            canvas.drawBitmap(
+                    wood1,
+                    0,
+                    0,
+                    paint);
             canvas.drawBitmap(
                     goal.getBitmap(),
                     goal.getX(),
