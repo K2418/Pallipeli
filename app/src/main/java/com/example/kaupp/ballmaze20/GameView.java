@@ -2,6 +2,7 @@ package com.example.kaupp.ballmaze20;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
@@ -16,6 +17,9 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
+import static xdroid.toaster.Toaster.toast;
+import static xdroid.toaster.Toaster.toastLong;
 
 public class GameView extends SurfaceView implements SensorEventListener, Runnable {
 
@@ -26,6 +30,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     private Thread gameThread = null;
 
     private Ball ball;
+    private Goal goal;
     private Level level;
 
 
@@ -45,6 +50,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         super(context);
         sensorManager = passedManager;
         ball = new Ball(context, passedDisplay);
+        goal = new Goal(context, passedDisplay);
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
@@ -81,11 +87,11 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
             //drawing a background color for canvas
             canvas.drawColor(Color.WHITE);
             //Drawing the player
-/*            canvas.drawBitmap(
-                    level.getBitmap(),
-                    level.getX(),
-                    level.getY(),
-                    paint);*/
+            canvas.drawBitmap(
+                    goal.getBitmap(),
+                    goal.getX(),
+                    goal.getY(),
+                    paint);
             canvas.drawBitmap(
                     ball.getBitmap(),
                     ball.getX(),
@@ -102,6 +108,11 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
             int xNew = (int) x;
             int yNew = (int) y;
             ball.update(xNew,yNew);
+            if(ball.getX() >= goal.getX() - 20 && ball.getX() <= goal.getX() + 20){
+                if(ball.getY() >= goal.getY() - 20 && ball.getY() <= goal.getY() + 20) {
+                    GoalAchieved();
+                }
+            }
             Log.d("Demo","X=" + Integer.toString(xNew) + "Y="+ Integer.toString(yNew));
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -135,4 +146,10 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
 
     @Override
     public void onAccuracyChanged(Sensor sensorDump, int accuracy){}
+
+    public void GoalAchieved(){
+        toastLong("Jippii");
+        ball.Destroy();
+        goal.Done();
+    }
 }

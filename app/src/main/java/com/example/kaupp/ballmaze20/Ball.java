@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import java.util.Random;
+
 import static java.security.AccessController.getContext;
 
 public class Ball {
@@ -169,6 +171,18 @@ public class Ball {
         bounce = bounce * -1;
         bounce = bounce*15;
         return bounce;
+    }
+
+    public void Destroy(){
+        int min = ballHeight;
+        int maxH = screenHeight;
+        int maxW = screenWidth;
+
+        Random hori = new Random();
+        y = hori.nextInt(maxW - min + 1) + min;
+
+        Random verti = new Random();
+        x = verti.nextInt(maxH - min + 1) + min;
     }
 
     public Bitmap getBitmap() {
