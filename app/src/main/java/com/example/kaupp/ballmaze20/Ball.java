@@ -31,7 +31,7 @@ public class Ball {
 
     private boolean bounceTrue = false;
     private int bounceAmount, bounceDirection;
-    int timesUpdated = 0;
+    private int timesUpdated = 0;
 
 
     //constructor

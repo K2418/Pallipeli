@@ -16,8 +16,8 @@ public class Goal {
     private int x;
     private int y;
 
-    int goalHeight, goalWidth;
-    int screenWidth,screenHeight;
+    private int goalHeight, goalWidth;
+    private int screenWidth,screenHeight;
 
 
     public Goal(Context context, DisplayMetrics passedDisplay) {
