@@ -20,6 +20,9 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
+
+import java.util.Random;
+
 import static xdroid.toaster.Toaster.toast;
 import static xdroid.toaster.Toaster.toastLong;
 
@@ -31,9 +34,14 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     //the game thread
     private Thread gameThread = null;
 
+    //Game Objects
     private Ball ball;
     private Goal goal;
     private Level level;
+
+    //Variables for level selection
+    private boolean goalIsAchieved = false;
+    private int selected;
 
 
     //Add sensors to game
@@ -41,7 +49,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     private Sensor sensor;
 
     //For drawing game
-    private Paint paint;
+    private Paint paint, wallPaint;
     private Canvas canvas;
     private SurfaceHolder surfaceHolder;
     private Bitmap wood1;
@@ -58,6 +66,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         //initializing drawing objects
         surfaceHolder = getHolder();
         paint = new Paint();
+        wallPaint = new Paint();
 
     }
 
@@ -97,7 +106,9 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
                     0,
                     0,
                     paint);
-            DrawWalls();
+
+            DrawWalls(canvas);
+
             canvas.drawBitmap(
                     goal.getBitmap(),
                     goal.getX(),
@@ -132,7 +143,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
 
     public void pause() {
         //when the game is paused
-        //setting the variable to false
+        //setting the variable to f alse
         playing = false;
         try {
             //stopping the thread
@@ -162,9 +173,56 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         toastLong("Jippii");
         ball.Destroy();
         goal.Done();
+        goalIsAchieved = true;
     }
 
-    public void DrawWalls(){
-        canvas.drawLine(50,50,100,100, paint);
+    public void DrawWalls(Canvas wallCanvas){
+
+
+        Random stage = new Random();
+        int stageSelector;
+
+        if(goalIsAchieved){
+            stageSelector = stage.nextInt((5-0+1)+1);
+            selected = stageSelector;
+            goalIsAchieved = false;
+        }
+        else {
+            stageSelector = selected;
+        }
+        switch (stageSelector){
+            case 0:
+                wallPaint.setColor(Color.MAGENTA);
+                wallPaint.setStrokeWidth(50);
+                wallCanvas.drawLine(300,100,300,700, wallPaint);
+                break;
+            case 1:
+                wallPaint.setColor(Color.RED);
+                wallPaint.setStrokeWidth(50);
+                wallCanvas.drawLine(500,50,500,700, wallPaint);
+                break;
+            case 2:
+                wallPaint.setColor(Color.BLUE);
+                wallPaint.setStrokeWidth(50);
+                wallCanvas.drawLine(50,50,500,700, wallPaint);
+                break;
+            case 3:
+                wallPaint.setColor(Color.GREEN);
+                wallPaint.setStrokeWidth(50);
+                wallCanvas.drawLine(50,50,1000,700, wallPaint);
+                break;
+            case 4:
+                wallPaint.setColor(Color.BLACK);
+                wallPaint.setStrokeWidth(50);
+                wallCanvas.drawLine(50,50,1000,700, wallPaint);
+                break;
+            case 5:
+
+            default:
+                wallPaint.setColor(Color.MAGENTA);
+                wallPaint.setStrokeWidth(50);
+                wallCanvas.drawLine(50,50,1000,700, wallPaint);
+                break;
+        }
     }
 }
