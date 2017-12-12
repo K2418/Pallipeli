@@ -32,6 +32,7 @@ public class Ball {
     private boolean bounceTrue = false;
     private int bounceAmount, bounceDirection;
     private int timesUpdated = 0;
+    int[] lines;
 
 
     //constructor
@@ -160,6 +161,84 @@ public class Ball {
                 bounceAmount = yNew;
                 bounceDirection = 3;
             }
+            if(lines[0] == lines[1]){
+                if(x >= lines[0] - ballWidth - 25 && x <= lines[0] - ballWidth){
+                    if(y > lines[2]){
+                        if(y < lines[3]){
+                            xNew = Bounce(xNew);
+                            bounceTrue = true;
+                            bounceAmount = xNew;
+                            bounceDirection = 0;
+                        }
+                    }
+                    else if(y < lines[3]){
+                        if (y > lines[2]){
+                            xNew = Bounce(xNew);
+                            bounceTrue = true;
+                            bounceAmount = xNew;
+                            bounceDirection = 0;
+                        }
+                    }
+                }
+                else if(x >= lines[0] - ballWidth + 25 && x <= lines[0] + 25){
+                    if(y > lines[2]){
+                        if(y < lines[3]){
+                            xNew = Bounce(xNew);
+                            bounceTrue = true;
+                            bounceAmount = xNew;
+                            bounceDirection = 1;
+                        }
+                    }
+                    else if(y < lines[3]){
+                        if (y > lines[2]){
+                            xNew = Bounce(xNew);
+                            bounceTrue = true;
+                            bounceAmount = xNew;
+                            bounceDirection = 1;
+                        }
+                    }
+                }
+            }
+            if(lines[2] == lines[3]){
+                if(y >= lines[2] - ballWidth - 25 && y <= lines[2] - 25){
+                    if(x > lines[0]){
+                        if(x < lines[1]){
+                            yNew = Bounce(yNew);
+                            bounceTrue = true;
+                            bounceAmount = yNew;
+                            bounceDirection = 2;
+                        }
+                    }
+                    else if(x < lines[1]){
+                        if (x > lines[0]){
+                            yNew = Bounce(yNew);
+                            bounceTrue = true;
+                            bounceAmount = yNew;
+                            bounceDirection = 2;
+                        }
+                    }
+                }
+                if(y <= lines[2] - ballWidth + 25 && y >= lines[2] + 25){
+                    if(x > lines[0]){
+                        if(x < lines[1]){
+                            yNew = Bounce(yNew);
+                            bounceTrue = true;
+                            bounceAmount = yNew;
+                            bounceDirection = 3;
+                        }
+                    }
+                    else if(x < lines[1]){
+                        if (x > lines[0]){
+                            yNew = Bounce(yNew);
+                            bounceTrue = true;
+                            bounceAmount = yNew;
+                            bounceDirection = 3;
+                        }
+                    }
+                }
+            }
+
+
         }
 
 
@@ -180,9 +259,52 @@ public class Ball {
 
         Random hori = new Random();
         x = hori.nextInt(maxW - min + 1) + min;
-
         Random verti = new Random();
         y = verti.nextInt(maxH - min + 1) + min;
+        if(lines != null){
+            if(lines[1] - lines[0] == 0){
+                if(x + ballWidth >= lines[0]) {
+                    if (x - ballWidth <= lines[1]) {
+                        if (lines[0] > ballWidth) {
+                            x = lines[0] - ballWidth - 25;
+                        } else {
+                            x = lines[0] + ballWidth + 25;
+                        }
+                    }
+                }
+            }
+            else if(lines[3] - lines[2] == 0){
+                if(y + ballWidth >= lines[2]) {
+                    if (y - ballWidth <= lines[3]) {
+                        if (lines[2] > ballWidth) {
+                            y = lines[2] - ballWidth - 25;
+                        } else {
+                            y = lines[2] + ballWidth + 25;
+                        }
+                    }
+                }
+            }
+            else{}
+
+            /*if(x >= lines[0]){
+                if(x <= lines[1]){
+                    if(lines[1] - lines[0] == 0){
+                        if(lines[0] > ballWidth){
+                            x = lines[0] - ballWidth - 25;
+                        }
+                        else{
+                            x = lines[0] + ballWidth + 25;
+                        }
+                    }
+                }
+            }*/
+        }
+
+
+    }
+
+    public void SetLines(int[] gets){
+        lines = gets;
     }
 
     public Bitmap getBitmap() {

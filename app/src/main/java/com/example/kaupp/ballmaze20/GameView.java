@@ -55,11 +55,16 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
     private Bitmap wood1;
 
     double x = 0, y = 0;
+    int screenWidth,screenHeight;
+    int[] linePos = new int[4];
+    boolean drawLine = false;
 
     //Class constructor
     public GameView(Context context, SensorManager passedManager, DisplayMetrics passedDisplay) {
         super(context);
         sensorManager = passedManager;
+        screenWidth = passedDisplay.widthPixels;
+        screenHeight = passedDisplay.heightPixels;
         wood1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.wood1);
         ball = new Ball(context, passedDisplay);
         goal = new Goal(context, passedDisplay);
@@ -67,6 +72,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         surfaceHolder = getHolder();
         paint = new Paint();
         wallPaint = new Paint();
+        wallPaint.setStrokeWidth(50);
 
     }
 
@@ -78,19 +84,20 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         sensorManager.registerListener((SensorEventListener) this, sensor, SensorManager.SENSOR_DELAY_GAME);
 
         while (playing) {
-            //to update the frame
+            //update important game stuff
             update();
 
-            //to draw the frame
+            //draw the frame
             draw();
 
-            //to control
+            //controls
             control();
         }
     }
 
     private void update() {
-
+        ball.SetLines(linePos);
+        goal.SetLines(linePos);
     }
 
     private void draw() {
@@ -171,6 +178,7 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
 
     public void GoalAchieved(){
         toastLong("Jippii");
+        StageSelector();
         ball.Destroy();
         goal.Done();
         goalIsAchieved = true;
@@ -178,6 +186,11 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
 
     public void DrawWalls(Canvas wallCanvas){
 
+        if(drawLine){
+            wallCanvas.drawLine(linePos[0],linePos[2],linePos[1],linePos[3], wallPaint);
+        }
+    }
+    private void StageSelector(){
 
         Random stage = new Random();
         int stageSelector;
@@ -193,35 +206,52 @@ public class GameView extends SurfaceView implements SensorEventListener, Runnab
         switch (stageSelector){
             case 0:
                 wallPaint.setColor(Color.MAGENTA);
-                wallPaint.setStrokeWidth(50);
-                wallCanvas.drawLine(300,100,300,700, wallPaint);
+                linePos[0] = 0;
+                linePos[1] = 600;
+                linePos[2] = 700;
+                linePos[3] = 700;
+                drawLine = true;
                 break;
             case 1:
                 wallPaint.setColor(Color.RED);
-                wallPaint.setStrokeWidth(50);
-                wallCanvas.drawLine(500,50,500,700, wallPaint);
+                linePos[0] = 500;
+                linePos[1] = 500;
+                linePos[2] = 50;
+                linePos[3] = 700;
+                drawLine = true;
                 break;
             case 2:
                 wallPaint.setColor(Color.BLUE);
-                wallPaint.setStrokeWidth(50);
-                wallCanvas.drawLine(50,50,500,700, wallPaint);
+                linePos[0] = 500;
+                linePos[1] = 500;
+                linePos[2] = 250;
+                linePos[3] = 800;
+                drawLine = true;
                 break;
             case 3:
                 wallPaint.setColor(Color.GREEN);
-                wallPaint.setStrokeWidth(50);
-                wallCanvas.drawLine(50,50,1000,700, wallPaint);
+                linePos[0] = 600;
+                linePos[1] = 600;
+                linePos[2] = 250;
+                linePos[3] = 1600;
+                drawLine = true;
                 break;
             case 4:
                 wallPaint.setColor(Color.BLACK);
-                wallPaint.setStrokeWidth(50);
-                wallCanvas.drawLine(50,50,1000,700, wallPaint);
+                linePos[0] = 700;
+                linePos[1] = 700;
+                linePos[2] = 400;
+                linePos[3] = 700;
+                drawLine = true;
                 break;
             case 5:
-
+                linePos[0] = 0;
+                linePos[1] = 0;
+                linePos[2] = 0;
+                linePos[3] = 0;
+                drawLine = false;
+                break;
             default:
-                wallPaint.setColor(Color.MAGENTA);
-                wallPaint.setStrokeWidth(50);
-                wallCanvas.drawLine(50,50,1000,700, wallPaint);
                 break;
         }
     }

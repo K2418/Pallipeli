@@ -19,6 +19,8 @@ public class Goal {
     private int goalHeight, goalWidth;
     private int screenWidth,screenHeight;
 
+    int[] lines;
+
 
     public Goal(Context context, DisplayMetrics passedDisplay) {
 
@@ -44,6 +46,36 @@ public class Goal {
 
         Random verti = new Random();
         y = verti.nextInt(maxH - min + 1) + min;
+
+        if(lines != null) {
+            if(lines[1] - lines[0] == 0){
+                if(x + goalWidth >= lines[0]) {
+                    if (x - goalWidth <= lines[1]) {
+                        if (lines[0] > goalWidth) {
+                            x = lines[0] - goalWidth - 25;
+                        } else {
+                            x = lines[0] + goalWidth + 25;
+                        }
+                    }
+                }
+            }
+            else if(lines[3] - lines[2] == 0){
+                if(y + goalWidth >= lines[2]) {
+                    if (y - goalWidth <= lines[3]) {
+                        if (lines[2] > goalWidth) {
+                            y = lines[2] - goalWidth - 25;
+                        } else {
+                            y = lines[2] + goalWidth + 25;
+                        }
+                    }
+                }
+            }
+            else{}
+        }
+    }
+
+    public void SetLines(int[] gets){
+        lines = gets;
     }
 
     public Bitmap getBitmap() {
